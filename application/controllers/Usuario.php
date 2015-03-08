@@ -112,7 +112,7 @@ class Usuario extends \Core\Controller
             $daoCondominio = new \Model\Dao\CondominioDao();
             $condominios = $daoCondominio->lista();
 
-            $daoPermissao = new \Model\Dao\PermissaoDao();
+            $daoPermissao = new \Model\Dao\RoleDao();
             $permissoes = $daoPermissao->lista();
 
             $this->view->render('usuario/editar', array(

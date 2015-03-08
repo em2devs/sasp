@@ -111,7 +111,7 @@ class Condominio extends \Core\Controller
         if ($condominio->getId() !== null) {
             $this->view->render('condominio/editar', array(
                 'title' => '',
-                'formAction' => URL . 'condominio/salvar' . $id,
+                'formAction' => URL . 'condominio/salvar/' . $id,
                 'condominio' => $condominio
             ));
         } else {

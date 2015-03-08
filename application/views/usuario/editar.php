@@ -45,7 +45,7 @@
         </div>			
     </div> 
     
-    <?php if ((int)\Lib\Session::get('permissao') === 1): ?>
+    <?php if ((int)\Lib\Session::get('role') === 1): ?>
     <div class="form-group">
         <label class="control-label col-sm-1" for="selectPermissao">Permissao</label>
         <div class="col-sm-3">
