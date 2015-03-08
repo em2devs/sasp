@@ -1,0 +1,19 @@
+body {
+  padding-top: 100px;
+}
+
+.header {
+    height: 100px !important;
+}
+
+footer {
+  text-align: center;
+  vertical-align: middle;
+  height: 60px;
+  color: #FFF;
+  background-color: #000;
+}
+
+.copyright {
+    color: #777;
+}
