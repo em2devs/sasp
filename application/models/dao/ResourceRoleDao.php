@@ -43,7 +43,7 @@ class ResourceRoleDao extends \Core\Dao
             $sql = "SELECT arr.* FROM auth_resource_role arr ";
             $sql = $sql . " INNER JOIN auth_resource ar ON (arr.id_resource = ar.id) ";
             //$sql = $sql . " WHERE arr.id_role = ? AND ar.method <> 'index' ORDER BY ar.controller, ar.method ";
-            $sql = $sql . " WHERE arr.id_role = ?  AND ar.has_output ='1' ORDER BY ar.controller, ar.method ";
+            $sql = $sql . " WHERE arr.id_role = ?  AND ar.has_output ='1' ORDER BY ar.menu_order, ar.item_order ";
             //
 
             $stmt = $this->conexao->prepare($sql);
