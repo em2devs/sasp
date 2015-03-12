@@ -136,7 +136,8 @@ class View
         $idRole = \Lib\Session::get('role');
 
         $daoResourceRole = new \Model\Dao\ResourceRoleDao();
-        $resources = $daoResourceRole->listaPorRole($idRole);
+        //$resources = $daoResourceRole->listaPorRole($idRole);
+        $resources = $daoResourceRole->listaMenu($idRole);
 
         $lastController = '';
         echo ' <ul class="nav navbar-nav">';

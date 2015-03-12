@@ -32,6 +32,43 @@ class ResourceRoleDao extends \Core\Dao
         }
     }
 
+
+    
+    public function listaMenu($idRole)
+    {
+        $resourceRoles = null;
+        
+        try {
+            //$sql = "SELECT * FROM auth_resource_role WHERE id_role = ?";
+            $sql = "SELECT arr.* FROM auth_resource_role arr ";
+            $sql = $sql . " INNER JOIN auth_resource ar ON (arr.id_resource = ar.id) ";
+            //$sql = $sql . " WHERE arr.id_role = ? AND ar.method <> 'index' ORDER BY ar.controller, ar.method ";
+            $sql = $sql . " WHERE arr.id_role = ?  AND ar.has_output ='1' ORDER BY ar.controller, ar.method ";
+            //
+
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->setFetchMode(\PDO::FETCH_CLASS, '\\Model\\ResourceRole');
+            $stmt->bindParam(1, $idRole, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                $resourceRoles = array();
+                $daoRole = new \Model\Dao\RoleDao();
+                $daoResource = new \Model\Dao\ResourceDao();
+                
+                while ($resourceRole = $stmt->fetch()) {
+                    $resourceRole->setRole($daoRole->busca($resourceRole->getIdRole()));
+                    $resourceRole->setResource($daoResource->busca($resourceRole->getIdResource()));
+                    array_push($resourceRoles, $resourceRole);
+                }
+                
+                return $resourceRoles;
+            }
+        } catch (\PDOException $exception) {
+            throw $exception->getMessage();
+        }
+    }
+
     public function listaPorRole($idRole)
     {
         $resourceRoles = null;
