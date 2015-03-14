@@ -33,6 +33,7 @@ class Arquivo extends \Core\Controller
         $idUsuario = 1; // Temporario
         $idTipoArquivo = 1; //Temporario
         $nomeExibicao = $_POST['nomeExibicao'];
+        $idCondiminio = $_SESSION['condominio'];
 
         $arquivo = new \Model\Arquivo();
         $dao = new \Model\Dao\ArquivoDao();
@@ -41,6 +42,7 @@ class Arquivo extends \Core\Controller
         $arquivo->setIdTipoArquivo($idTipoArquivo);
         $arquivo->setNomeExibicao($nomeExibicao);
         $arquivo->setNome($nome_arquivo);
+        $arquivo->setIdCondominio($idCondiminio);
 
         move_uploaded_file($tmp, 'public/files/sistema/' . $nome_arquivo);
 

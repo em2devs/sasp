@@ -42,6 +42,7 @@ class Sistema extends \Core\Controller
                 \Lib\Session::set('id', $usuario->getId());
                 \Lib\Session::set('email', $usuario->getEmail());
                 \Lib\Session::set('role', $usuario->getIdRole());
+                \Lib\Session::set('condominio', $usuario->getIdCondominio());
 
                 header('Location: ' . URL . 'sistema/index');
                 exit();

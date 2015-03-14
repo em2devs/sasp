@@ -38,12 +38,13 @@ class ArquivoDao extends \Core\Dao
     {
         try {
             $sql = "INSERT INTO arquivo (id_usuario_upload, id_tipo_arquivo, nome, nome_exibicao";
-            $sql = $sql . ", dt_hr_upload) VALUES (?,?,?,?, NOW()) ";
+            $sql = $sql . ", dt_hr_upload, id_condominio) VALUES (?,?,?,?, NOW(), ?) ";
 
             $idUsuarioUpload = $arquivo->getIdUsuarioUpload();
             $idTipoArquivo = $arquivo->getIdTipoArquivo();
             $nome = $arquivo->getNome();
             $nomeExibicao = $arquivo->getNomeExibicao();
+            $idCondominio = $arquivo->getIdCondominio();
 
             $stmt = $this->conexao->prepare($sql);
 
@@ -51,6 +52,7 @@ class ArquivoDao extends \Core\Dao
             $stmt->bindParam(2, $idTipoArquivo, \PDO::PARAM_INT);
             $stmt->bindParam(3, $nome, \PDO::PARAM_STR);
             $stmt->bindParam(4, $nomeExibicao, \PDO::PARAM_STR);
+            $stmt->bindParam(5, $idCondominio, \PDO::PARAM_INT);
 
             return $stmt->execute();
         } catch (\PDOException $exception) {

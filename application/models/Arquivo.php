@@ -11,10 +11,16 @@ class Arquivo
     private $nome;
     private $dt_hr_upload;
     private $nome_exibicao;
+    private $id_condominio;
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getIdCondominio()
+    {
+        return $this->id_condominio;    
     }
 
     public function getIdUsuarioUpload()
@@ -45,6 +51,11 @@ class Arquivo
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function setIdCondominio($idCondominio)
+    {
+        $this->id_condominio = $idCondominio;
     }
 
     public function setIdUsuarioUpload($idUsuario)
