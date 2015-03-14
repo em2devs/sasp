@@ -43,8 +43,10 @@ class Usuario extends \Core\Controller
      * @param int $id Identificador do usuário a ser inserido ou atualizado
      */
     public function salvar($id = null)
-    {
+    {   
         $nomeCompleto = $_POST['nome'];
+        $login = $_POST['login'];
+        $senha = $_POST['senha'];
         $cep = $_POST['email'];
         $bloco = $_POST['bloco'];
         $apartamento = $_POST['apartamento'];
@@ -53,21 +55,23 @@ class Usuario extends \Core\Controller
 
         $usuario = new \Model\Usuario();
         $dao = new \Model\Dao\UsuarioDao();
-
+        
         $usuario->setNomeCompleto($nomeCompleto);
+        $usuario->setLogin($login);
+        $usuario->setSenha($senha);
         $usuario->setEmail($cep);
         $usuario->setApto($bloco);
         $usuario->setBloco($apartamento);
         $usuario->setIdCondominio($idCondominio);
         $usuario->setIdRole($idRole);
-
+        
         if ($id !== null) {
             $usuario->setId($id);
             $dao->atualiza($usuario);
         } else {
             $dao->insere($usuario);
         }
-
+        
         header('Location: ' . URL . 'usuario/listar');
         exit();
     }
@@ -132,6 +136,12 @@ class Usuario extends \Core\Controller
      */
     public function excluir($id)
     {
+        $usuario = new \Model\Usuario();
+        $dao = new \Model\Dao\UsuarioDao();
+        
+        $usuario->setId($id);
+        $dao->exclui($usuario);
+        
         header('Location: ' . URL . 'usuario/listar');
         exit();
     }

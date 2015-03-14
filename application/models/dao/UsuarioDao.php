@@ -122,23 +122,27 @@ class UsuarioDao extends \Core\Dao
     {
         try {
 
-            $sql = "INSERT INTO usuario (id_condominio, nome_completo, email, apto, bloco, dt_hr_cadastro, id_permissao ) VALUES ";
-            $sql = $sql . "(?, ?, ?, ?, ?, now(), ?) ";
+            $sql = "INSERT INTO usuario (id_condominio, nome_completo, email, login, senha, apto, bloco, dt_hr_cadastro, id_role) VALUES ";
+            $sql = $sql . "(?, ?, ?, ?, ?, ?, ?, now(), ?) ";
 
             $idCondominio = $usuario->getIdCondominio();
             $nome = $usuario->getNomeCompleto();
             $email = $usuario->getEmail();
+            $login = $usuario->getLogin();
+            $senha = $usuario->getSenha();
             $apto = $usuario->getApto();
             $bloco = $usuario->getBloco();
             $idRole = $usuario->getIdRole();
-
+            
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindParam(1, $idCondominio, \PDO::PARAM_INT);
             $stmt->bindParam(2, $nome, \PDO::PARAM_STR);
             $stmt->bindParam(3, $email, \PDO::PARAM_STR);
-            $stmt->bindParam(4, $apto, \PDO::PARAM_STR);
-            $stmt->bindParam(5, $bloco, \PDO::PARAM_STR);
-            $stmt->bindParam(6, $idRole, \PDO::PARAM_INT);
+            $stmt->bindParam(4, $login, \PDO::PARAM_STR);
+            $stmt->bindParam(5, $senha, \PDO::PARAM_STR);
+            $stmt->bindParam(6, $apto, \PDO::PARAM_STR);
+            $stmt->bindParam(7, $bloco, \PDO::PARAM_STR);
+            $stmt->bindParam(8, $idRole, \PDO::PARAM_INT);
             return $stmt->execute();
         } catch (\PDOException $exception) {
             throw $exception->getMessage();
