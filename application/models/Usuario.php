@@ -36,7 +36,8 @@ class Usuario
 
     public function setNomeCompleto($nomeCompleto)
     {
-        $this->nome_completo = strtoupper($nomeCompleto);
+        //$this->nome_completo = strtoupper($nomeCompleto);
+        $this->nome_completo = $nomeCompleto;
     }
 
     public function setEmail($email)

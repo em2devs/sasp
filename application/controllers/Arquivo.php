@@ -55,12 +55,14 @@ class Arquivo extends \Core\Controller
     public function listar()
     {
         $dao = new \Model\Dao\ArquivoDao();
-        $arquivos = $dao->lista();
+        $idCondominio = $_SESSION['condominio'];
+        $arquivos = $dao->lista($idCondominio);
 
         $this->view->render('arquivo/listar', array(
             'title' => '',
             'arquivos' => $arquivos
         ));
+        
     }
 
     public function excluir($id)

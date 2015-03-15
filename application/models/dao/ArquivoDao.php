@@ -10,25 +10,36 @@ class ArquivoDao extends \Core\Dao
         parent::__construct();
     }
 
-    public function lista()
+    public function lista($idCondominio)
     {
         $arquivos = null;
         
         try {
 
-            $sql = "SELECT * FROM arquivo";
+            if ($idCondominio != null && $idCondominio != 0)
+            {
+                $sql = "SELECT * FROM arquivo WHERE id_condominio = " . $idCondominio;               
+            } 
+            else
+            {
+                $sql = "SELECT * FROM arquivo";
+            }
+
+            
             $stmt = $this->conexao->query($sql);
             $stmt->setFetchMode(\PDO::FETCH_CLASS, '\\Model\\Arquivo');
 
-            if ($stmt->rowCount() > 0) {
-                $arquivos = array();
+            //$stmt->bindParam(1, $idCondominio, \PDO::PARAM_INT);            
+            //if ($stmt->rowCount() > 0) {
+            
+            $arquivos = array();
 
-                while ($arquivo = $stmt->fetch()) {
-                    array_push($arquivos, $arquivo);
-                }
-
-                return $arquivos;
+            while ($arquivo = $stmt->fetch()) {
+                array_push($arquivos, $arquivo);
             }
+
+            return $arquivos;
+            //}
         } catch (\PDOException $exception) {
             throw $exception->getMessage();
         }

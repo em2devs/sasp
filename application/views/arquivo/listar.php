@@ -8,7 +8,12 @@
     <tr>
         <th>Descrição</th> 
         <th>Arquivo</th>  
-        <th>Ações</th>
+    <?php
+        $role = $_SESSION['role'];
+        if($role <= 2){
+            echo '<th>Ações</th>';
+        }
+     ?>    
     </tr>
 
     <?php if (sizeof($data['arquivos']) > 0): ?>
@@ -18,9 +23,22 @@
                 <td>
                     <?= '<a href ="' . PATH_FILES . '/' . $arquivo->getNome() . '">' . $arquivo->getNome() . '</a>' ?>
                 </td>
-                <td>
+
+                <?php
+                    $role = $_SESSION['role'];
+                    if($role <= 2){
+                        //echo '<th>Ações</th>';
+                        $href = URL . 'arquivo/excluir/' . $arquivo->getId();
+                        echo '<td>';
+                        echo "<a class='btn btn-danger' href=$href >Excluir</a>";
+                        echo '</td>';
+                    }
+                ?>  
+
+                <!-- <td>
                     <a class="btn btn-danger"  href="<?= URL . 'arquivo/excluir/' . $arquivo->getId(); ?>">Excluir</a>
-                </td>
+                </td> -->
+                
             </tr>
         <?php endforeach; ?>
     <?php endif; ?>
