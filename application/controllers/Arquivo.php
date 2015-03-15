@@ -33,7 +33,7 @@ class Arquivo extends \Core\Controller
         $idUsuario = 1; // Temporario
         $idTipoArquivo = 1; //Temporario
         $nomeExibicao = $_POST['nomeExibicao'];
-        $idCondiminio = $_SESSION['condominio'];
+        $idCondominio = \Lib\Session::get('condominio');
 
         $arquivo = new \Model\Arquivo();
         $dao = new \Model\Dao\ArquivoDao();
@@ -42,7 +42,7 @@ class Arquivo extends \Core\Controller
         $arquivo->setIdTipoArquivo($idTipoArquivo);
         $arquivo->setNomeExibicao($nomeExibicao);
         $arquivo->setNome($nome_arquivo);
-        $arquivo->setIdCondominio($idCondiminio);
+        $arquivo->setIdCondominio($idCondominio);
 
         move_uploaded_file($tmp, 'public/files/sistema/' . $nome_arquivo);
 
@@ -67,6 +67,12 @@ class Arquivo extends \Core\Controller
 
     public function excluir($id)
     {
+        $arquivo = new \Model\Arquivo();
+        $dao = new \Model\Dao\ArquivoDao();
+        
+        $arquivo->setId($id);
+        $dao->exclui($arquivo);
+        
         header('Location: ' . URL . 'arquivo/listar');
         exit();
     }

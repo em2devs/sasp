@@ -16,13 +16,6 @@ class Usuario
     private $dt_hr_cadastro;
     private $dt_hr_ultimo_login;
     private $id_role;
-
-   public function __set($name, $value)
-   {
-       if($name === 'nome_completo') {
-           call_user_func('setNomeCompleto()', $value);
-       }
-   }
     
     public function setId($id)
     {

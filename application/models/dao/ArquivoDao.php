@@ -71,4 +71,25 @@ class ArquivoDao extends \Core\Dao
         }
     }
 
+    public function exclui(\Model\Arquivo $arquivo)
+    {
+        $id = $arquivo->getId();
+
+        try {
+            $sql = "SELECT * FROM arquivo WHERE id = ?";
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->setFetchMode(\PDO::FETCH_CLASS, '\\Model\\Arquivo');
+            $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+            $stmt->execute();
+            $arquivo = $stmt->fetch();
+            unlink('public/files/sistema/' . $arquivo->getNome());
+            
+            $sql = "DELETE FROM arquivo WHERE id = ?";
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (\PDOException $exception) {
+            throw $exception->getMessage();
+        }
+    }
 }
