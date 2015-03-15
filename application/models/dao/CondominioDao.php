@@ -78,20 +78,6 @@ class CondominioDao extends \Core\Dao
         }
     }
 
-    public function exclui($condominio)
-    {
-        $id = $condominio->getId();
-
-        try {
-            $sql = "DELETE FROM condominio WHERE id = ?";
-            $stmt = $this->conexao->prepare($sql);
-            $stmt->bindParam(1, $id, \PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (\PDOException $exception) {
-            throw $exception->getMessage();
-        }
-    }
-
     public function atualiza($condominio)
     {
         try {
@@ -149,6 +135,31 @@ class CondominioDao extends \Core\Dao
             $stmt->bindParam(7, $quantidadeBlocos, \PDO::PARAM_INT);
 
             return $stmt->execute();
+        } catch (\PDOException $exception) {
+            throw $exception->getMessage();
+        }
+    }
+
+    public function exclui(\Model\Condominio $condominio)
+    {
+        $id = $condominio->getId();
+
+        try {
+            $sql = "SELECT * FROM usuario WHERE id_condominio = ?";
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->setFetchMode(\PDO::FETCH_NUM);
+            $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+            $stmt->execute();
+            
+            if ($stmt->rowCount() === 0) {
+                $sql = "DELETE FROM condominio WHERE id = ?";
+                $stmt = $this->conexao->prepare($sql);
+                $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+                
+                return $stmt->execute();
+            } else {
+                return false;
+            }
         } catch (\PDOException $exception) {
             throw $exception->getMessage();
         }

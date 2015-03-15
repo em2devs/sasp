@@ -127,6 +127,12 @@ class Condominio extends \Core\Controller
      */
     public function excluir($id)
     {
+        $condominio = new \Model\Condominio();
+        $dao = new \Model\Dao\CondominioDao();
+        
+        $condominio->setId($id);
+        $dao->exclui($condominio);
+        
         header('Location: ' . URL . 'condominio/listar');
         exit();
     }

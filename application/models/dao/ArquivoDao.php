@@ -16,15 +16,11 @@ class ArquivoDao extends \Core\Dao
         
         try {
 
-            if ($idCondominio != null && $idCondominio != 0)
-            {
-                $sql = "SELECT * FROM arquivo WHERE id_condominio = " . $idCondominio;               
-            } 
-            else
-            {
+            if ($idCondominio != null && $idCondominio != 0) {
+                $sql = "SELECT * FROM arquivo WHERE id_condominio = {$idCondominio}";
+            }  else {
                 $sql = "SELECT * FROM arquivo";
             }
-
             
             $stmt = $this->conexao->query($sql);
             $stmt->setFetchMode(\PDO::FETCH_CLASS, '\\Model\\Arquivo');
@@ -40,6 +36,52 @@ class ArquivoDao extends \Core\Dao
 
             return $arquivos;
             //}
+        } catch (\PDOException $exception) {
+            throw $exception->getMessage();
+        }
+    }
+
+    public function busca($id)
+    {
+        try {
+            $sql = "SELECT * FROM arquivo WHERE id = ?";
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->setFetchMode(\PDO::FETCH_CLASS, '\\Model\\Arquivo');
+            $stmt->bindParam(1, $id, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            $arquivo = new \Model\TipoArquivo();
+
+            if ($stmt->rowCount() > 0) {
+                $arquivo = $stmt->fetch();
+            }
+            return $arquivo;
+        } catch (\PDOException $exception) {
+            throw $exception->getMessage();
+        }
+    }
+
+    public function buscaPorNome($nome)
+    {
+        $nome = str_replace('-', ' ', $nome);
+        $arquivos = null;
+        
+        try {
+            $sql = "SELECT * FROM arquivo WHERE nome LIKE ?";
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->setFetchMode(\PDO::FETCH_CLASS, '\\Model\\Arquivo');
+            $stmt->bindValue(1, "%$nome%", \PDO::PARAM_STR);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                $arquivos = array();
+
+                while ($arquivo = $stmt->fetch()) {
+                    array_push($arquivos, $arquivo);
+                }
+
+                return $arquivos;
+            }
         } catch (\PDOException $exception) {
             throw $exception->getMessage();
         }

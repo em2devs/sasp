@@ -52,18 +52,33 @@ class Arquivo extends \Core\Controller
         exit();
     }
 
-    public function listar()
+    public function listar($busca = null)
     {
         $dao = new \Model\Dao\ArquivoDao();
-        $idCondominio = $_SESSION['condominio'];
-        $arquivos = $dao->lista($idCondominio);
-
+        $idCondominio = \Lib\Session::get('condominio');
+        $arquivos = null;
+        
+        if ($busca !== null) {
+            $arquivos = $dao->buscaPorNome($busca);
+        } else {
+            $arquivos = $dao->lista($idCondominio);
+        }
+        
         $this->view->render('arquivo/listar', array(
             'title' => '',
             'arquivos' => $arquivos
         ));
         
     }
+    
+    public function buscar($nome = null)
+    {
+        $this->view->render('arquivo/buscar', array(
+            'title' => 'SASP | Buscar Arquivo',
+            'nome' => str_replace('-', ' ', $nome)
+        ));
+    }
+
 
     public function excluir($id)
     {

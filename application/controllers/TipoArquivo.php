@@ -24,7 +24,7 @@ class TipoArquivo extends \Core\Controller
         $tiposArquivo = $dao->lista();
 
         $this->view->render('arquivo/tipo/cadastrar', array(
-            'title' => '',
+            'title' => 'SASP | Cadastrar TipoArquivo',
             'formAction' => URL . 'tipo-arquivo/salvar',
             'tiposArquivo' => $tiposArquivo
         ));
@@ -44,14 +44,28 @@ class TipoArquivo extends \Core\Controller
         exit();
     }
 
-    public function listar()
+    public function listar($busca = null)
     {
         $dao = new \Model\Dao\TipoArquivoDao();
-        $tiposArquivo = $dao->lista();
+        $tiposArquivo = null;
+        
+        if ($busca !== null) {
+            $tiposArquivo = $dao->buscaPorNome($busca);
+        } else {
+            $tiposArquivo = $dao->lista();
+        }
 
         $this->view->render('arquivo/tipo/listar', array(
-            'title' => '',
+            'title' => 'SASP | Listar TipoArquivo',
             'tiposArquivo' => $tiposArquivo
+        ));
+    }
+    
+    public function buscar($nome = null)
+    {
+        $this->view->render('arquivo/tipo/buscar', array(
+            'title' => 'SASP | Buscar TipoArquivo',
+            'nome' => str_replace('-', ' ', $nome)
         ));
     }
 
