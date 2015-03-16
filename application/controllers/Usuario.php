@@ -84,7 +84,16 @@ class Usuario extends \Core\Controller
         if ($busca !== null) {
             $usuarios = $dao->buscaPorNome($busca);
         } else {
-            $usuarios = $dao->lista();
+            
+            $role = $_SESSION['role'];
+            if($role == 1)
+            {
+                $usuarios = $dao->lista();
+            }
+            else
+            {
+                $usuarios = $dao->lista($_SESSION['condominio']);
+            }            
         }
         
         $this->view->render('usuario/listar', array(

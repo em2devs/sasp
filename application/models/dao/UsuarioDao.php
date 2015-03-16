@@ -81,13 +81,22 @@ class UsuarioDao extends \Core\Dao
         }
     }
 
-    public function lista()
+    public function lista($idCondominio = null)
     {
         $usuarios = null;
         
         try {
 
-            $sql = "SELECT * FROM usuario";
+            if ($idCondominio == null)
+            {
+                $sql = "SELECT * FROM usuario";
+            }
+            else
+            {
+                $sql = "SELECT * FROM usuario WHERE id_condominio = ".$idCondominio;
+            }
+
+            
             $stmt = $this->conexao->query($sql);
             $stmt->setFetchMode(\PDO::FETCH_CLASS, '\\Model\\Usuario');
 
