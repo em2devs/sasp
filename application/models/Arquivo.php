@@ -82,5 +82,33 @@ class Arquivo
     {
         $this->dt_hr_upload = $dataHoraUpload;
     }
+    
+    public function validarMimeType($mimeType) {
+        $haystack = array(
+            "image/jpeg",
+            "image/pjpeg",
+            "image/png",
+            "image/gif",
+            "application/pdf",
+            "application/zip",
+            "application/msword",
+            "application/mspowerpoint",
+            "application/powerpoint",
+            "application/vnd.ms-powerpoint",
+            "application/x-mspowerpoint",
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/vnd.ms-powerpoint",
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "text/csv",
+        );
+        
+        if (in_array($mimeType, $haystack)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

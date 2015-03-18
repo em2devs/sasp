@@ -32,9 +32,9 @@ class Sistema extends \Core\Controller
             $senha = $_POST['senha'];
 
             $dao = new \Model\Dao\UsuarioDao();
-            $usuario = $dao->buscaLogin($login, $senha);
+            $usuario = $dao->buscaLogin($login);
 
-            if ($usuario !== null) {
+            if ($login === $usuario->getLogin() && password_verify($senha, $usuario->getSenha())) {
                 \Lib\Session::init();
 
                 \Lib\Session::set('user_logged_in', true);

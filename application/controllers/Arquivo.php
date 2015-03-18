@@ -20,18 +20,22 @@ class Arquivo extends \Core\Controller
 
     public function upload()
     {
+        $daoTiposArquivo = new \Model\Dao\TipoArquivoDao();
+        $tiposArquivo = $daoTiposArquivo->lista();
+        
         $this->view->render('arquivo/upload', array(
             'title' => '',
-            'formAction' => URL . 'arquivo/salvar'
+            'formAction' => URL . 'arquivo/salvar',
+            'tiposArquivo' => $tiposArquivo
         ));
     }
 
     public function salvar()
     {
-        $nome_arquivo = $_FILES['arquivo']['name'];
+        $nomeArquivo = $_FILES['arquivo']['name'];
         $tmp = $_FILES['arquivo']['tmp_name'];
-        $idUsuario = 1; // Temporario
-        $idTipoArquivo = 1; //Temporario
+        $idUsuario = \Lib\Session::get('id');
+        $idTipoArquivo = $_POST['tipoArquivo'];
         $nomeExibicao = $_POST['nomeExibicao'];
         $idCondominio = \Lib\Session::get('condominio');
 
@@ -41,15 +45,19 @@ class Arquivo extends \Core\Controller
         $arquivo->setIdUsuarioUpload($idUsuario);
         $arquivo->setIdTipoArquivo($idTipoArquivo);
         $arquivo->setNomeExibicao($nomeExibicao);
-        $arquivo->setNome($nome_arquivo);
+        $arquivo->setNome($nomeArquivo);
         $arquivo->setIdCondominio($idCondominio);
 
-        move_uploaded_file($tmp, 'public/files/sistema/' . $nome_arquivo);
+        $fi = new \finfo(FILEINFO_MIME);
+        $fileType = explode(';', $fi->file($tmp));
+        
+        if ($arquivo->validarMimeType($fileType[0])) {
+            move_uploaded_file($tmp, 'public/files/sistema/' . $nomeArquivo);
+            $dao->insere($arquivo);
 
-        $dao->insere($arquivo);
-
-        header('Location: ' . URL . 'arquivo/listar');
-        exit();
+            header('Location: ' . URL . 'arquivo/listar');
+            exit();
+        }
     }
 
     public function listar($busca = null)
@@ -79,6 +87,20 @@ class Arquivo extends \Core\Controller
         ));
     }
 
+    public function download($id)
+    {
+        $arquivo = new \Model\Arquivo();
+        $dao = new \Model\Dao\ArquivoDao();
+        $arquivo = $dao->busca($id);
+        
+        $fi = new \finfo(FILEINFO_MIME);
+        $filename = 'public/files/sistema/' . $arquivo->getNome();
+
+        header('Content-type: ' . $fi->file($filename));
+        header('Content-Disposition: attachment; filename="' . $arquivo->getNome() . '"');
+        readfile($filename);
+        exit();
+    }
 
     public function excluir($id)
     {

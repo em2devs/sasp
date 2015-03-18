@@ -33,6 +33,17 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="selectTipoArquivo">Tipo de Arquivo</label>
+        <div class="col-sm-4">
+            <select class="form-control" name="tipoArquivo">
+            <?php foreach ($data['tiposArquivo'] as $tipoArquivo): ?>
+                <option value="<?= $tipoArquivo->getId(); ?>"><?= $tipoArquivo->getNome(); ?></option>
+            <?php endforeach; ?>
+            </select>
+        </div>			
+    </div>
+    
     <div class="input-group col-sm-4 col-sm-push-2">
         <span class="input-group-btn">
             <span class="btn btn-primary btn-file">
@@ -41,7 +52,7 @@
         </span>
         <input type="text" class="form-control" readonly>
     </div> <br>
-
+    
     <input type="submit" name="enviar" value="Enviar" class="btn btn-primary">
 </form>
 

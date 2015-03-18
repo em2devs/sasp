@@ -10,7 +10,7 @@ class UsuarioDao extends \Core\Dao
         parent::__construct();
     }
 
-    public function buscaLogin($login, $senha)
+    public function buscaLogin($login)
     {
         try {
 

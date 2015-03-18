@@ -55,7 +55,7 @@ class View
     }
 
     /**
-     * Verifica se a string fornecida é o controlador ativo.
+     * Função estática que verifica se a string fornecida é o controlador ativo.
      * 
      * Útil para gerenciar os links de navegação ativos/inativos.
      * 
@@ -75,7 +75,15 @@ class View
         return false;
     }
 
-
+    /**
+     * Função que verifica se a string fornecida é o controlador ativo.
+     * 
+     * Útil para gerenciar os links de navegação ativos/inativos.
+     * 
+     * @param string $filename
+     * @param string $navigation_controller
+     * @return bool
+     */
     private function checkForActiveController($filename, $navigation_controller)
     {
         $split_filename = explode('/', $filename);
@@ -131,66 +139,66 @@ class View
         return false;
     }
 
+    /**
+     * Monta o menu superior de acordo com as permissões do usuário logado.
+     * 
+     * @return string $menu
+     */
     private function montaMenu()
     {
+        $menu = "";
         $idRole = \Lib\Session::get('role');
 
         $daoResourceRole = new \Model\Dao\ResourceRoleDao();
-        //$resources = $daoResourceRole->listaPorRole($idRole);
         $resources = $daoResourceRole->listaMenu($idRole);
 
         $lastController = '';
-        echo ' <ul class="nav navbar-nav">';
+        $menu .= ' <ul class="nav navbar-nav">';
         foreach ($resources as $resource) {
 
-            if($resource->getResource()->getController() == 'Sistema'){
+            if ($resource->getResource()->getController() == 'Sistema') {
                 continue;
             }
             
             //Cria o menu principal
-            if($lastController != $resource->getResource()->getController()){
-                //$lastController = $resource->getResource()->getController();
+            if ($lastController != $resource->getResource()->getController()) {
                 if($lastController != ''){
-                    echo "</ul>";
-                    echo "</li>";
+                    $menu .= "</ul>";
+                    $menu .= "</li>";
                 }
 
                 $active = "";
-                $checkForCtrl = \Lib\View::checkForActiveControl(@$_GET['url'], strtolower($lastController));
+                $checkForCtrl = \Lib\View::checkForActiveControl(@$_GET['url'], mb_strtolower($lastController));
+                
                 if ( $checkForCtrl ) { 
                     $active = "active"; 
                 }
-                echo  ' <li class="dropdown' . $active .'"> ';
-                echo  ' <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#"> ';
-                echo  ucfirst(strtolower($resource->getResource()->getController()));
-                echo  ' <span class="caret"></span> ';
-                echo  ' </a> ';
-                echo  '<ul class="dropdown-menu" role="menu">';
+                
+                $menu .= '<li class="dropdown' . $active .'"> ';
+                $menu .= '<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#"> ';
+                $menu .= $resource->getResource()->getController()!=="TipoArquivo" ? ucfirst(mb_strtolower($resource->getResource()->getController())) : "Tipo de Arquivo";
+                $menu .= '<span class="caret"></span> ';
+                $menu .= '</a> ';
+                $menu .= '<ul class="dropdown-menu" role="menu">';
 
                 $lastController = $resource->getResource()->getController();
             } 
 
                 //imprime os menus
-                echo '<li>';
-                //print ;
+                $menu .= '<li>';
                 $ctrl = $resource->getResource()->getController();
                 $action = $resource->getResource()->getMethod();
-                $finalUrl = ''.URL . strtolower($ctrl) . '/' . strtolower($action) .''; 
+                $finalUrl = ''.URL . mb_strtolower($ctrl) . '/' . mb_strtolower($action) .''; 
                 $action = ucfirst($action);
-                echo "<a href=$finalUrl >$action";
+                $menu .= "<a href=$finalUrl >$action";
 
-                echo '</a>';
-                echo '</li>';
-
-
-                echo '<script language="javascript">';
-                echo "alert($finalUrl)";
-                echo '</script>';
-                
-            
+                $menu .= '</a>';
+                $menu .= '</li>';
         }
-        echo "</ul>";
-        echo "</li>";
-        echo "</ul>";
+        $menu .= "</ul>";
+        $menu .= "</li>";
+        $menu .= "</ul>";
+        
+        return $menu;
     }
 }

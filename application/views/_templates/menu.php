@@ -5,7 +5,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <?php if (\Lib\Session::get('user_logged_in')): ?>
-            <?php $this->montaMenu(); ?>
+                <?= $this->montaMenu(); ?>
             <?php endif; ?>
 
             <ul class="nav navbar-nav pull-right">
