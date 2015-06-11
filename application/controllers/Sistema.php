@@ -27,7 +27,8 @@ class Sistema extends \Core\Controller
     {
         $mensagem = '';
 
-        if (isset($_POST['login'])) {
+        if ((isset($_POST['login']) && isset($_POST['senha'])) &&
+            ($_POST['login'] != null && $_POST['senha'] != null)) {
             $login = $_POST['login'];
             $senha = $_POST['senha'];
 
@@ -49,6 +50,9 @@ class Sistema extends \Core\Controller
             } else {
                 $mensagem = 'Usuário ou senha inválidos';
             }
+        } elseif ((isset($_POST['login']) && isset($_POST['senha'])) &&
+                  ($_POST['login'] == null || $_POST['senha'] == null)) {
+            $mensagem = 'Informe login e senha';
         } elseif (isset($_SESSION['user_logged_in'])) {
             header('Location: ' . URL . 'sistema/index');
             exit();

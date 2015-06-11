@@ -15,6 +15,7 @@
         <!-- JS -->
         <script type="text/javascript" src="<?= PATH_JS . '/jquery.min.js'; ?>"></script>
         <script type="text/javascript" src="<?= PATH_JS . '/jquery-ui.min.js'; ?>"></script>
+        <script type="text/javascript" src="<?= PATH_JS . '/jquery.validate.min.js'; ?>"></script>
         <script type="text/javascript" src="<?= PATH_JS . '/bootstrap.min.js'; ?>"></script>
         <script type="text/javascript" src="<?= PATH_JS . '/application.js'; ?>"></script>
     </head>

@@ -6,6 +6,7 @@
 
 <table class="table table-striped table-bordered">
     <tr>
+        <th>Condomínio</th>
         <th>Descrição</th>
         <th>Arquivo</th>
         <?php $role = \Lib\Session::get('role'); ?>
@@ -17,6 +18,10 @@
     <?php if (sizeof($data['arquivos']) > 0): ?>
         <?php foreach ($data['arquivos'] as $arquivo): ?>
             <tr>
+                <td>
+                    <?= $arquivo->getCondominio()->getNome(); ?>
+                </td>
+                
                 <td>
                     <?= $arquivo->getNomeExibicao(); ?>
                 </td>

@@ -10,7 +10,7 @@ class ArquivoDao extends \Core\Dao
         parent::__construct();
     }
 
-    public function lista($idCondominio)
+    public function lista($idCondominio = null)
     {
         $arquivos = null;
         
@@ -61,16 +61,26 @@ class ArquivoDao extends \Core\Dao
         }
     }
 
-    public function buscaPorNome($nome)
+    public function buscaPorNome($nome, $idCondominio = null)
     {
         $nome = str_replace('-', ' ', $nome);
         $arquivos = null;
         
         try {
             $sql = "SELECT * FROM arquivo WHERE nome LIKE ?";
+            
+            if ($idCondominio !== null) {
+                $sql .= " AND id_condominio = ?";
+            }
+            
             $stmt = $this->conexao->prepare($sql);
             $stmt->setFetchMode(\PDO::FETCH_CLASS, '\\Model\\Arquivo');
             $stmt->bindValue(1, "%$nome%", \PDO::PARAM_STR);
+            
+            if ($idCondominio !== null) {
+                $stmt->bindValue(2, $idCondominio, \PDO::PARAM_STR);
+            }
+            
             $stmt->execute();
 
             if ($stmt->rowCount() > 0) {

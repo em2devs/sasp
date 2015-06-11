@@ -4,7 +4,7 @@
     <div class="form-group">
         <label class="control-label col-sm-2" for="tipoArquivo">Tipo de Arquivo</label>
         <div class="col-sm-4">
-            <input class="form-control" type="text" id="tipoArquivo" name="tipo_arquivo">
+            <input class="form-control" type="text" id="tipoArquivo" name="tipo_arquivo" maxlength="100" required>
         </div>			
     </div>
     <br>

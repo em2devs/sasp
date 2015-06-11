@@ -12,6 +12,7 @@ class Arquivo
     private $dt_hr_upload;
     private $nome_exibicao;
     private $id_condominio;
+    protected $condominio;
 
     public function getId()
     {
@@ -83,7 +84,8 @@ class Arquivo
         $this->dt_hr_upload = $dataHoraUpload;
     }
     
-    public function validarMimeType($mimeType) {
+    public function validarMimeType($mimeType)
+    {
         $haystack = array(
             "image/jpeg",
             "image/pjpeg",
@@ -111,4 +113,11 @@ class Arquivo
         }
     }
 
+    public function getCondominio()
+    {
+        $condominioDao = new \Model\Dao\CondominioDao();
+        $condominio = $condominioDao->busca($this->id_condominio);
+        
+        return $condominio;
+    }
 }

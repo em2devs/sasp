@@ -24,7 +24,7 @@ class Condominio extends \Core\Controller
     public function cadastrar()
     {
         $this->view->render('condominio/cadastrar', array(
-            'title' => '',
+            'title' => 'SASP | Condomínio | Cadastrar',
             'formAction' => URL . 'condominio/salvar',
         ));
     }

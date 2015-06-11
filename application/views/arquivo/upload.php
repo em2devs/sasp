@@ -3,10 +3,11 @@
         position: relative;
         overflow: hidden;
     }
+    
     .btn-file input[type=file] {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: -110px;
+        right: -300px;
         min-width: 100%;
         min-height: 100%;
         font-size: 100px;
@@ -17,6 +18,7 @@
         cursor: inherit;
         display: block;
     }
+    
     input[readonly] {
         background-color: white !important;
         cursor: text !important;
@@ -29,7 +31,7 @@
     <div class="form-group">
         <label class="control-label col-sm-2" for="inputNomeExibicao" >Nome de Exibição</label>
         <div class="col-sm-4">
-            <input class="form-control" type="text" id="inputNomeExibicao" name="nomeExibicao">
+            <input class="form-control" type="text" id="inputNomeExibicao" name="nomeExibicao" maxlength="100" required>
         </div>
     </div>
 
@@ -44,10 +46,22 @@
         </div>			
     </div>
     
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="selectCondominio">Condominio</label>
+        <div class="col-sm-3">
+            <select class="form-control" name="condominio">
+                <option value="0">Todos</option>
+            <?php foreach ($data['condominios'] as $condominio): ?>
+                <option value="<?= $condominio->getId(); ?>"><?= $condominio->getNome(); ?></option>
+            <?php endforeach; ?>
+            </select>
+        </div>			
+    </div>
+    
     <div class="input-group col-sm-4 col-sm-push-2">
         <span class="input-group-btn">
             <span class="btn btn-primary btn-file">
-                Procurar <input type="file" id="arquivo" name="arquivo">
+                Procurar <input type="file" id="arquivo" name="arquivo" required>
             </span>
         </span>
         <input type="text" class="form-control" readonly>

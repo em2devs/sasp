@@ -23,10 +23,14 @@ class Arquivo extends \Core\Controller
         $daoTiposArquivo = new \Model\Dao\TipoArquivoDao();
         $tiposArquivo = $daoTiposArquivo->lista();
         
+        $daoCondominio = new \Model\Dao\CondominioDao();
+        $condominios = $daoCondominio->lista();
+        
         $this->view->render('arquivo/upload', array(
             'title' => '',
             'formAction' => URL . 'arquivo/salvar',
-            'tiposArquivo' => $tiposArquivo
+            'tiposArquivo' => $tiposArquivo,
+            'condominios' => $condominios
         ));
     }
 
@@ -37,7 +41,8 @@ class Arquivo extends \Core\Controller
         $idUsuario = \Lib\Session::get('id');
         $idTipoArquivo = $_POST['tipoArquivo'];
         $nomeExibicao = $_POST['nomeExibicao'];
-        $idCondominio = \Lib\Session::get('condominio');
+        //$idCondominio = \Lib\Session::get('condominio');
+        $idCondominio = $_POST['condominio'];
 
         $arquivo = new \Model\Arquivo();
         $dao = new \Model\Dao\ArquivoDao();
@@ -67,16 +72,23 @@ class Arquivo extends \Core\Controller
         $arquivos = null;
         
         if ($busca !== null) {
-            $arquivos = $dao->buscaPorNome($busca);
+            if (\Lib\Session::get('role') !== '1') {
+                $arquivos = $dao->buscaPorNome($busca, $idCondominio);
+            } else {
+                $arquivos = $dao->buscaPorNome($busca);
+            }
         } else {
-            $arquivos = $dao->lista($idCondominio);
+            if (\Lib\Session::get('role') !== '1') {
+                $arquivos = $dao->lista($idCondominio);
+            } else {
+                $arquivos = $dao->lista();
+            }
         }
         
         $this->view->render('arquivo/listar', array(
             'title' => '',
             'arquivos' => $arquivos
         ));
-        
     }
     
     public function buscar($nome = null)

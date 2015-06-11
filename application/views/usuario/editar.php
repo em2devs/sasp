@@ -5,14 +5,14 @@
     <div class="form-group">
         <label class="control-label col-sm-1" for="inputNome" >Nome</label>
         <div class="col-sm-4">
-            <input class="form-control" type="text" id="inputNome" name="nome" value="<?= $data['usuario']->getNomeCompleto() ?>">
+            <input class="form-control" type="text" id="inputNome" name="nome" value="<?= $data['usuario']->getNomeCompleto() ?>" maxlength="20" required>
         </div>			
     </div>
 
     <div class="form-group">
         <label class="control-label col-sm-1" for="inputEmail" >Email</label>
         <div  class="col-sm-3">
-            <input class="form-control" type="text" id="inputEmail" name="email" value="<?= $data['usuario']->getEmail() ?>">
+            <input class="form-control" type="text" id="inputEmail" name="email" value="<?= $data['usuario']->getEmail() ?>" maxlength="50">
         </div>			
     </div>
 
@@ -34,14 +34,14 @@
     <div class="form-group">
         <label class="control-label col-sm-1" for="inputApartamento" >Apartamento</label>
         <div class="col-sm-1">
-            <input class="form-control" type="text" id="inputApartamento" name="apartamento" value="<?= $data['usuario']->getApto() ?>">
+            <input class="form-control" type="text" id="inputApartamento" name="apartamento" value="<?= $data['usuario']->getApto() ?>" maxlength="10">
         </div>			
     </div>
 
     <div class="form-group">
         <label class="control-label col-sm-1" for="inputBloco" >Bloco</label>
         <div class="col-sm-1">
-            <input class="form-control" type="text" id="inputBloco" name="bloco" value="<?= $data['usuario']->getBloco() ?>">
+            <input class="form-control" type="text" id="inputBloco" name="bloco" value="<?= $data['usuario']->getBloco() ?>" maxlength="50">
         </div>			
     </div> 
     
