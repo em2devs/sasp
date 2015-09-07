@@ -185,5 +185,21 @@ class UsuarioDao extends \Core\Dao
             throw $exception->getMessage();
         }
     }
+    
+    public function atualizaUltimoLogin($usuario)
+    {
+        try {
 
+            $sql = "UPDATE usuario SET dt_hr_ultimo_login = NOW() WHERE id = ?";
+
+            $id = $usuario->getId();
+
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->bindParam(1, $id, \PDO::PARAM_STR);
+
+            return $stmt->execute();
+        } catch (\PDOException $exception) {
+            throw $exception->getMessage();
+        }
+    }
 }

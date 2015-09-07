@@ -35,7 +35,7 @@ class Sistema extends \Core\Controller
             $dao = new \Model\Dao\UsuarioDao();
             $usuario = $dao->buscaLogin($login);
 
-            if ($login === $usuario->getLogin() && password_verify($senha, $usuario->getSenha())) {
+            if ($usuario !== null && ($login === $usuario->getLogin() && password_verify($senha, $usuario->getSenha()))) {
                 \Lib\Session::init();
 
                 \Lib\Session::set('user_logged_in', true);
@@ -45,6 +45,8 @@ class Sistema extends \Core\Controller
                 \Lib\Session::set('role', $usuario->getIdRole());
                 \Lib\Session::set('condominio', $usuario->getIdCondominio());
 
+                $dao->atualizaUltimoLogin($usuario);
+                
                 header('Location: ' . URL . 'sistema/index');
                 exit();
             } else {

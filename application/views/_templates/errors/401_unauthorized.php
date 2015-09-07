@@ -1,3 +1,3 @@
 <h1>Ops!</h1>
-<h2>Bad user! No doughnuts for you!</h2>
-<h3>Don't try to get what's not yours to keep!</h3>
+<h2>Bad user! No donut for you!</h2>
+<h3>Acesso não autorizado!</h3>

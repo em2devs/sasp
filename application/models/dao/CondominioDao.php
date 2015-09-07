@@ -61,6 +61,8 @@ class CondominioDao extends \Core\Dao
     //Retorna um objeto do tipo Condominio baseado no ID
     public function busca($id)
     {
+        $condominio = null;
+        
         try {
             $sql = "SELECT * FROM condominio WHERE id = ?";
             $stmt = $this->conexao->prepare($sql);

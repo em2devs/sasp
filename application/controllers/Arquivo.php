@@ -64,7 +64,7 @@ class Arquivo extends \Core\Controller
             exit();
         }
     }
-
+    
     public function listar($busca = null)
     {
         $dao = new \Model\Dao\ArquivoDao();

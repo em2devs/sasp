@@ -19,6 +19,7 @@
         <label class="control-label col-sm-1" for="selectCondominio">Condominio</label>
         <div class="col-sm-3">
             <select class="form-control" name="condominio">
+                <option value="0">Admin</option>
             <?php foreach ($data['condominios'] as $condominio): ?>
                 <option value="<?= $condominio->getId(); ?>"><?= $condominio->getNome(); ?></option>
             <?php endforeach; ?>

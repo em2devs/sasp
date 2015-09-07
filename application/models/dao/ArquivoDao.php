@@ -12,12 +12,10 @@ class ArquivoDao extends \Core\Dao
 
     public function lista($idCondominio = null)
     {
-        $arquivos = null;
-        
         try {
 
-            if ($idCondominio != null && $idCondominio != 0) {
-                $sql = "SELECT * FROM arquivo WHERE id_condominio = {$idCondominio}";
+            if ($idCondominio != null) {
+                $sql = "SELECT * FROM arquivo WHERE id_condominio = 0 OR id_condominio = {$idCondominio}";
             }  else {
                 $sql = "SELECT * FROM arquivo";
             }

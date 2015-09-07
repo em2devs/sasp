@@ -16,6 +16,8 @@ class Usuario
     private $dt_hr_cadastro;
     private $dt_hr_ultimo_login;
     private $id_role;
+    protected $condominio;
+    protected $role;
     
     public function setId($id)
     {
@@ -128,4 +130,29 @@ class Usuario
         return $this->id_role;
     }
 
+    public function setCondominio($condominio)
+    {
+        $this->condominio = $condominio;
+    }
+    
+    public function getCondominio()
+    {
+        $condominioDao = new \Model\Dao\CondominioDao();
+        $this->setCondominio($condominioDao->busca($this->id_condominio));
+        
+        return $this->condominio;
+    }
+    
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+    
+    public function getRole()
+    {
+        $roleDao = new \Model\Dao\RoleDao();
+        $this->setRole($roleDao->busca($this->id_role));
+        
+        return $this->role;
+    }
 }

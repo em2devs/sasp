@@ -14,10 +14,14 @@
         <?php foreach ($data['usuarios'] as $usuario): ?>
             <tr>
                 <td><?= $usuario->getNomeCompleto(); ?></td>
-                <td><?= $usuario->getIdCondominio(); ?></td>
+                <?php if($usuario->getCondominio() !== NULL && $usuario->getCondominio()->getNome() !== 'Admin'): ?>
+                    <td><?= $usuario->getCondominio()->getNome(); ?></td>
+                <?php else: ?>
+                    <td><?= ""; ?></td>
+                <?php endif; ?>
                 <td><?= $usuario->getApto(); ?></td>
                 <td><?= $usuario->getBloco(); ?></td>
-                <td><?= $usuario->getIdRole(); ?></td>
+                <td><?= $usuario->getRole()->getNome(); ?></td>
                 <td>
                     <a class="btn btn-info"    href="<?= URL . 'usuario/editar/' . $usuario->getId(); ?>">Editar</a>
                     <a class="btn btn-danger"  href="<?= URL . 'usuario/excluir/' . $usuario->getId(); ?>">Excluir</a>

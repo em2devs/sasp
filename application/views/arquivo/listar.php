@@ -1,7 +1,11 @@
+<?php $role = \Lib\Session::get('role'); ?>
+
 <h3>Lista de Arquivos</h3>
 
-<a class="btn btn-primary" href="<?= URL . 'arquivo/upload'; ?>">Inserir</a>
-<a class="btn btn-primary" href="<?= URL . 'tipo-arquivo/cadastrar'; ?>">Inserir Tipo de Arquivo</a>
+<?php if ($role == 1): ?>
+    <a class="btn btn-primary" href="<?= URL . 'arquivo/upload'; ?>">Inserir</a>
+    <a class="btn btn-primary" href="<?= URL . 'tipo-arquivo/cadastrar'; ?>">Inserir Tipo de Arquivo</a>
+<?php endif; ?>
 <br><br>
 
 <table class="table table-striped table-bordered">
@@ -9,7 +13,6 @@
         <th>Condomínio</th>
         <th>Descrição</th>
         <th>Arquivo</th>
-        <?php $role = \Lib\Session::get('role'); ?>
         <?php if ($role < 3): ?>
             <th>Ações</th>
         <?php endif; ?>
@@ -19,7 +22,11 @@
         <?php foreach ($data['arquivos'] as $arquivo): ?>
             <tr>
                 <td>
-                    <?= $arquivo->getCondominio()->getNome(); ?>
+                    <?php if ($arquivo->getIdCondominio() > 0): ?>
+                        <?= $arquivo->getCondominio()->getNome(); ?>
+                    <?php else: ?>
+                        <?= "-" ?>
+                    <?php endif; ?>
                 </td>
                 
                 <td>
@@ -29,13 +36,13 @@
                 <td>
                     <?= $arquivo->getNome(); ?>
                 </td>
-
-                <?php if ($role < 3): ?>
-                    <td>
-                        <a class="btn btn-primary" href="<?= URL . 'arquivo/download/' . $arquivo->getId(); ?>" ><span class="glyphicon glyphicon-download-alt"></span> Download</a>
+                
+                <td>
+                    <a class="btn btn-primary" href="<?= URL . 'arquivo/download/' . $arquivo->getId(); ?>" ><span class="glyphicon glyphicon-download-alt"></span> Download</a>
+                    <?php if ($role == 1): ?>
                         <a class="btn btn-danger" href="<?= URL . 'arquivo/excluir/' . $arquivo->getId(); ?>" ><span class="glyphicon glyphicon-remove"></span> Excluir</a>
-                    </td>
-                <?php endif; ?>
+                    <?php endif; ?>
+                </td>
             </tr>
         <?php endforeach; ?>
     <?php endif; ?>
