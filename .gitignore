@@ -13,4 +13,3 @@ Thumbs.db
 #    Diretorios de Upload    #
 ##############################
 public/files/sistema/*
-!public/files/sistema/.gitignore
